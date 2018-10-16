@@ -16,14 +16,15 @@ public class LevelGeneration : MonoBehaviour
 	private bool stop;
 	private float time;
 	public float starttime = 0.25f;  //cd
-
+    public GameObject Player;
 
 	public LayerMask _room;
 	void Start()
 	{
 		int randstartingPos = Random.Range(0, startingPositions.Length);
 		transform.position = startingPositions[randstartingPos].position;
-		Instantiate(rooms[0], transform.transform.position, Quaternion.identity);
+        Instantiate(Player, transform.transform.position, Quaternion.identity);     //----------------在这个位置产生Player
+        Instantiate(rooms[0], transform.transform.position, Quaternion.identity);
 
 		direction = Random.Range(1, 6);
 
@@ -93,10 +94,9 @@ public class LevelGeneration : MonoBehaviour
 			if (transform.position.y > minY)
 			{
 			 Collider2D roomDetection = Physics2D.OverlapCircle(transform.position, 1, _room);　　　　//　目標のCollider２D　ComponentのSIZEのサイズを確認しなくてはならない。０．００００１の場合BUGが出る。
-			 Debug.Log(roomDetection);　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　// このBugをさがすのに時間掛かっちゃた。　
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　// このBugをさがすのに時間掛かっちゃた。　
 				 if (roomDetection.GetComponent<WallType>().Type != 1 && roomDetection.GetComponent<WallType>().Type != 3)
 				 {
-				 	Debug.Log("123");
 					roomDetection.GetComponent<WallType>().RoomDestruction();
 
 					int randbottomRoom = Random.Range(1, 4);
